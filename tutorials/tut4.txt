@@ -1,0 +1,57 @@
+CREATE TABLE Drug (
+    id 		CHAR(10),
+    brand_name	VARCHAR(60),
+    generic_name VARCHAR(60),
+    company	VARCHAR(60),
+    PRIMARY KEY (id)
+ );
+
+
+INSERT INTO `Drug` VALUES ('gf23496889','Humolin R','Minocycline','PharmaWorld'),('kr87019382','Mycabutin','Rifabutin','GrecoGen'),('mq95032359','Precoz','Acarbose','PharmaWorld'),('op99823820','Glucabay','Acarbose','HealthRight'),('po50094505','Novalin R','Minocycline','GrecoGen'),('zg93055406','Zagan','Sparfloxacin','HorizonMed');
+
+
+
+CREATE TABLE General_Practitioner (
+    id 			CHAR(10),
+    name		VARCHAR(60),
+    email		VARCHAR(60),
+    current_practice	VARCHAR(60),
+    years_of_experience INTEGER,
+    PRIMARY KEY (id)
+ );
+
+
+INSERT INTO `General_Practitioner` VALUES ('asw2213032','Kyle Russell','k.russell@example.com','Earth Practice',26),('fcv0949043','Jack McGregor','j.mcgregor@example.com','Talbot Practice',12),('gke8849340','David Taylor','d.taylor@example.com','Rose Clinic',23),('kwr9852345','Hannah Mclean','h.mclean@example.com','Foster Clinic',8),('sdf2939475','Charlotte Aitken','c.aitken@example.com','Meadows Clinic',4),('vnn8458554','Lucy Taylor','l.taylor@example.com','Rose Clinic',35);
+
+
+
+CREATE TABLE Patient (
+    chi 		CHAR(10),
+    name		VARCHAR(60),
+    email		VARCHAR(60),
+    postcode		CHAR(6),
+    year_of_birth 	INTEGER,
+    gp_id		CHAR(10) NOT NULL,
+    PRIMARY KEY (chi),
+    CONSTRAINT `fk_patient_general_practitioner` FOREIGN KEY (`gp_id`) REFERENCES `General_Practitioner` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
+ );
+
+INSERT INTO `Patient` VALUES ('0103624538','Alastair Brown','a.brown@example.com','EH89FK',1962,'gke8849340'),('0812965634','Julia Clark','j.clark@example.com','SD34TR',1996,'asw2213032'),('1208783406','Amy Murray','a.murray@example.com','AB83KL',1978,'vnn8458554'),('1411845100','Rhona Wilson','r.wilson@example.com','SD98VF',1984,'kwr9852345'),('1909793256','Iain Scott','i.scottt@example.com','EH56FF',1979,'fcv0949043'),('2208663398','Hamish Walker','h.walker@example.com','EH24DX',1966,'sdf2939475'),('3005402592','Fiona Campbell','f.campbell@example.com','LO43PR',1940,'asw2213032'),('3101974980','Andrew Ross','a.ross@example.com','SH51MN',1997,'fcv0949043');
+
+
+CREATE TABLE Prescription (
+    pr_id 		CHAR(10),
+    p_id 		CHAR(10),
+    gp_id 		CHAR(10),
+    d_id 		CHAR(10),
+    quantity	INTEGER,
+    date		DATE,
+    PRIMARY KEY (pr_id),
+    CONSTRAINT `fk_general_practitioner_has_drug_drug1` FOREIGN KEY (`d_id`) REFERENCES `drug` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+    CONSTRAINT `fk_general_practitioner_has_drug_general_practitioner1` FOREIGN KEY (`gp_id`) REFERENCES `general_practitioner` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+    CONSTRAINT `fk_prescription_patient1` FOREIGN KEY (`p_id`) REFERENCES `patient` (`chi`) ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
+INSERT INTO `Prescription` VALUES ('bfhoo06912','0812965634','asw2213032','mq95032359',4,'1999-01-20'),('clarw81294','2208663398','sdf2939475','zg93055406',2,'2015-05-18'),('dfgkj38392','3005402592','asw2213032','gf23496889',1,'2006-01-20'),('merer11760','3101974980','fcv0949043','po50094505',3,'2014-06-10'),('mettr44039','2208663398','sdf2939475','gf23496889',5,'2015-01-08'),('pepro83321','3005402592','asw2213032','gf23496889',1,'2007-11-29'),('plote50975','3005402592','asw2213032','op99823820',1,'2015-01-08');
+
+
